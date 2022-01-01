@@ -576,7 +576,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/">
+    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -589,7 +589,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">黑苹果安装</a>
+          <a href="/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/" class="post-title-link" itemprop="url">黑苹果安装(已完结)</a>
         </h2>
 
         <div class="post-meta-container">
@@ -607,7 +607,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-12-17 22:03:24" itemprop="dateModified" datetime="2021-12-17T22:03:24+08:00">2021-12-17</time>
+        <time title="修改时间：2022-01-01 17:04:17" itemprop="dateModified" datetime="2022-01-01T17:04:17+08:00">2022-01-01</time>
       </span>
 
   
@@ -621,8 +621,18 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>2021.11.09 结果：Catalina10.15.7 除睡眠后触控板暂失灵，其他完美驱动。</p>
+<p><img src="https://pic.sutrab.com/uPic/%E9%BB%91%E8%8B%B9%E6%9E%9C2.jpg" alt="黑苹果2"></p>
 <p>小米笔记本air12.5-m3-6y30-2016年，上月换块电池，如获新生。<br>又扒出买时送的苹果标志的贴纸，心里有了一个不成熟的想法。<br>七年前安装OS X Lion没有网卡和触摸板驱动、各种卡死难用还历历在目，就先搜了一下WiFi驱动，好在Github上已有大神从FreeBSD移植过来的成熟驱动，itlwm+HeliPort，国内的开发者zxy维护的第二代AirportItlwm更是和原生一样好用，并且支持很多常见的Intel网卡型号，还没有一代HeliPort那种联网慢，易掉线的情况。</p>
 <p>黑苹果安装最重要的是EFI，有了对应的EFI引导文件，就成功了一半。</p>
+<p>Big Sur 11.6和以后的系统针对M1芯片优化的，不建议安装。</p>
+<p>硬盘安装有恢复和U盘（大于32G）安装两种方式，某宝商家大多用的恢复方式，快速省事，但是不稳定，也不知道有无后门。</p>
+<p>我下载了Catalina10.5.7，用balenaEtcher记录到U盘，然后用聪聪工具2.0把EFI文件拷到U盘引导系统（OC引导方式）。重启进入U盘。按提示操作。</p>
+<p><img src="https://pic.sutrab.com/uPic/%E9%BB%91%E8%8B%B9%E6%9E%9C1.jpg" alt="黑苹果1"></p>
+<p>安装挺简单的，重要的是驱动的调教。</p>
+<p>EFI中包含有适合本机的驱动文件，如果需要修改，用plist Editor这个工具来编辑config.plist。</p>
+<p>声卡驱动的layId测试耗时比较久，还有点玄学。声卡能用触控板一定能用。</p>
+<p>耗电有点快。</p>
+<p>win下用Paragon Backup and Recovery备份了一次，镜像49G，上传到了阿里云。</p>
 <p><img src="https://pic.sutrab.com/uPic/feitian1.jpg" alt="feitian1"></p>
 
       
