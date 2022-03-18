@@ -20,33 +20,29 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.jidaokeji.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="2021.11.09 结果：Catalina10.15.7 除睡眠后触控板暂失灵，其他完美驱动。  小米笔记本air12.5-m3-6y30-2016年，上月换块电池，如获新生。又扒出买时送的苹果标志的贴纸，心里有了一个不成熟的想法。七年前安装OS X Lion没有网卡和触摸板驱动、各种卡死难用还历历在目，就先搜了一下WiFi驱动，好在Github上已有大神从FreeBSD移植过来的成熟驱动，it">
+<meta name="description" content="搭建自己的网盘一直苦于内网穿透，好在VPS有个公网IP 系统和vps规则中都要设置打开相应端口 frps.ini配置： 12345678910111213# 下面这句开头必须要有，表示配置的开始[common]# frps 服务端端口（必须）bind_port &#x3D; 7000# 如果你想要用 frp 穿透访问内网中的网站（例如路由器设置页面）# 则必须要设置以下两个监听端口，不设置则不会开启这项功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="黑苹果安装(已完结)">
-<meta property="og:url" content="https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/index.html">
+<meta property="og:title" content="frp内网穿透">
+<meta property="og:url" content="https://blog.jidaokeji.cc/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/index.html">
 <meta property="og:site_name" content="Lucs踩坑记">
-<meta property="og:description" content="2021.11.09 结果：Catalina10.15.7 除睡眠后触控板暂失灵，其他完美驱动。  小米笔记本air12.5-m3-6y30-2016年，上月换块电池，如获新生。又扒出买时送的苹果标志的贴纸，心里有了一个不成熟的想法。七年前安装OS X Lion没有网卡和触摸板驱动、各种卡死难用还历历在目，就先搜了一下WiFi驱动，好在Github上已有大神从FreeBSD移植过来的成熟驱动，it">
+<meta property="og:description" content="搭建自己的网盘一直苦于内网穿透，好在VPS有个公网IP 系统和vps规则中都要设置打开相应端口 frps.ini配置： 12345678910111213# 下面这句开头必须要有，表示配置的开始[common]# frps 服务端端口（必须）bind_port &#x3D; 7000# 如果你想要用 frp 穿透访问内网中的网站（例如路由器设置页面）# 则必须要设置以下两个监听端口，不设置则不会开启这项功能">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/dantra/pic/raw/master/20220121-101955.jpg">
-<meta property="og:image" content="https://gitee.com/dantra/pic/raw/master/20220121-101051.png">
-<meta property="og:image" content="https://gitee.com/dantra/pic/raw/master/20220121-102013.jpg">
-<meta property="article:published_time" content="2021-12-08T01:50:53.000Z">
-<meta property="article:modified_time" content="2022-01-21T02:20:20.921Z">
+<meta property="og:image" content="https://gitee.com/dantra/pic/raw/master/20220316-175958">
+<meta property="article:published_time" content="2022-03-12T10:09:17.000Z">
+<meta property="article:modified_time" content="2022-03-18T09:37:24.273Z">
 <meta property="article:author" content="sanyuzi">
-<meta property="article:tag" content="折腾记录">
-<meta property="article:tag" content="黑苹果">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/dantra/pic/raw/master/20220121-101955.jpg">
+<meta name="twitter:image" content="https://gitee.com/dantra/pic/raw/master/20220316-175958">
 
 
-<link rel="canonical" href="https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/">
+<link rel="canonical" href="https://blog.jidaokeji.cc/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/","path":"黑苹果安装(已完结)/","title":"黑苹果安装(已完结)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.jidaokeji.cc/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/","path":"frp内网穿透/","title":"frp内网穿透"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>黑苹果安装(已完结) | Lucs踩坑记</title>
+<title>frp内网穿透 | Lucs踩坑记</title>
   
 
 
@@ -169,7 +165,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85(%E5%B7%B2%E5%AE%8C%E7%BB%93)/">
+    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -182,7 +178,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          黑苹果安装(已完结)
+          frp内网穿透
         </h1>
 
         <div class="post-meta-container">
@@ -193,14 +189,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-12-08 09:50:53" itemprop="dateCreated datePublished" datetime="2021-12-08T09:50:53+08:00">2021-12-08</time>
+      <time title="创建时间：2022-03-12 18:09:17" itemprop="dateCreated datePublished" datetime="2022-03-12T18:09:17+08:00">2022-03-12</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-01-21 10:20:20" itemprop="dateModified" datetime="2022-01-21T10:20:20+08:00">2022-01-21</time>
+        <time title="修改时间：2022-03-18 17:37:24" itemprop="dateModified" datetime="2022-03-18T17:37:24+08:00">2022-03-18</time>
       </span>
 
   
@@ -213,22 +209,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>2021.11.09 结果：Catalina10.15.7 除睡眠后触控板暂失灵，其他完美驱动。</p>
-<p><img src="https://gitee.com/dantra/pic/raw/master/20220121-101955.jpg" alt="superman"></p>
-<p>小米笔记本air12.5-m3-6y30-2016年，上月换块电池，如获新生。<br>又扒出买时送的苹果标志的贴纸，心里有了一个不成熟的想法。<br>七年前安装OS X Lion没有网卡和触摸板驱动、各种卡死难用还历历在目，就先搜了一下WiFi驱动，好在Github上已有大神从FreeBSD移植过来的成熟驱动，itlwm+HeliPort，国内的开发者zxy维护的第二代AirportItlwm更是和原生一样好用，并且支持很多常见的Intel网卡型号，还没有一代HeliPort那种联网慢，易掉线的情况。</p>
-<p>黑苹果安装最重要的是EFI，有了对应的EFI引导文件，就成功了一半。</p>
-<span id="more"></span>
+        <p>搭建自己的网盘一直苦于内网穿透，好在VPS有个公网IP</p>
+<p>系统和vps规则中都要设置打开相应端口</p>
+<p>frps.ini配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 下面这句开头必须要有，表示配置的开始</span><br><span class="line">[common]</span><br><span class="line"># frps 服务端端口（必须）</span><br><span class="line">bind_port = 7000</span><br><span class="line"></span><br><span class="line"># 如果你想要用 frp 穿透访问内网中的网站（例如路由器设置页面）</span><br><span class="line"># 则必须要设置以下两个监听端口，不设置则不会开启这项功能</span><br><span class="line">vhost_http_port = 10080</span><br><span class="line">vhost_https_port = 10443</span><br><span class="line"></span><br><span class="line"># frp 服务端密码（必须）</span><br><span class="line">token = 12345678</span><br><span class="line">subdomain_host = example.com</span><br></pre></td></tr></table></figure>
 
-<p>Big Sur 11.6和以后的系统针对M1芯片优化的，不建议安装。</p>
-<p>硬盘安装有恢复和U盘（大于32G）安装两种方式，某宝商家大多用的恢复方式，快速省事，但是不稳定，也不知道有无后门。</p>
-<p>我下载了Catalina10.15.7，用balenaEtcher记录到U盘，然后用聪聪工具2.0把EFI文件拷到U盘引导系统（OC引导方式）。重启进入U盘。按提示操作。</p>
-<p><img src="https://gitee.com/dantra/pic/raw/master/20220121-101051.png" alt="image-20220121101049515"></p>
-<p>安装挺简单的，重要的是驱动的调教。</p>
-<p>EFI中包含有适合本机的驱动文件，如果需要修改，用plist Editor这个工具来编辑config.plist。</p>
-<p>声卡驱动的layId参数测试耗时比较久，还有点玄学。声卡能用触控板一定能用。</p>
-<p>耗电有点快。</p>
-<p>win下用Paragon Backup and Recovery备份了一次，镜像49G，上传到了阿里云。</p>
-<p><img src="https://gitee.com/dantra/pic/raw/master/20220121-102013.jpg" alt="feitian1"></p>
+<p>frpc.ini配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line"># 远程端IP</span><br><span class="line">server_addr = 0.0.0.0</span><br><span class="line">server_port = 7000</span><br><span class="line"># 与frps密码要一致</span><br><span class="line">token = 12345678</span><br><span class="line"></span><br><span class="line">[web_ssh]</span><br><span class="line">type = http</span><br><span class="line">local_ip = 192.168.1.122</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domain = frp.nextcloud.com</span><br></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
+
+
+
+<p>服务端开机启动：</p>
+<p>sudo vim /etc/systemd/system/frps.service</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Frp Server Service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/bin/frps -c /etc/frps/frps.ini</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>sudo systemctl enable frps</p>
+<p>sudo systemctl start frps</p>
+<p>nextcloud添加信任IP或域名：(路径可能有所差异，自行用find / -name config.php查找)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /var/www/html/nextcloud/config/config.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/dantra/pic/raw/master/20220316-175958" alt="img"></p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.shangyexin.com/2020/01/20/frp/">https://www.shangyexin.com/2020/01/20/frp/</a></p>
 
     </div>
 
@@ -237,22 +242,18 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/" rel="tag"># 折腾记录</a>
-              <a href="/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/" rel="tag"># 黑苹果</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/%E9%87%91%E5%88%9A%E7%BB%8F/" rel="prev" title="金刚经">
-                  <i class="fa fa-chevron-left"></i> 金刚经
+                <a href="/%E6%84%9F%E6%81%A9%E8%AE%B0/" rel="prev" title="感恩记">
+                  <i class="fa fa-chevron-left"></i> 感恩记
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/hello-hexo/" rel="next" title="Hello hexo">
-                  Hello hexo <i class="fa fa-chevron-right"></i>
+                <a href="/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/" rel="next" title="Linux常见排查后门命令">
+                  Linux常见排查后门命令 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

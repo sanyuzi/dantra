@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.jidaokeji.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Linux常见系统后门排查命令1、检查异常账号——cat &#x2F;etc&#x2F;passwd 通过检查&#x2F;etc&#x2F;passwd，查看有没有可疑的系统用户，这个文件是以冒号:进行分割字段，一般我们只要注意第三个字段即可，第三个字段是用户ID，也就是UID，数字0代表超级用户的UID，即这个账号是管理员账号。一般Linux只会配置一个root账号为系统管理员，当出现其他账号是系统管理员的时候，就要注意了，很可能是黑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常见排查后门命令">
+<meta property="og:url" content="https://blog.jidaokeji.cc/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Lucs踩坑记">
+<meta property="og:description" content="Linux常见系统后门排查命令1、检查异常账号——cat &#x2F;etc&#x2F;passwd 通过检查&#x2F;etc&#x2F;passwd，查看有没有可疑的系统用户，这个文件是以冒号:进行分割字段，一般我们只要注意第三个字段即可，第三个字段是用户ID，也就是UID，数字0代表超级用户的UID，即这个账号是管理员账号。一般Linux只会配置一个root账号为系统管理员，当出现其他账号是系统管理员的时候，就要注意了，很可能是黑">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-18T03:59:08.000Z">
+<meta property="article:modified_time" content="2022-03-18T04:00:34.025Z">
+<meta property="article:author" content="sanyuzi">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.jidaokeji.cc/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.jidaokeji.cc/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/","path":"Linux常见排查后门命令/","title":"Linux常见排查后门命令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux常见排查后门命令 | Lucs踩坑记</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lucs踩坑记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%B8%B8%E8%A7%81%E7%B3%BB%E7%BB%9F%E5%90%8E%E9%97%A8%E6%8E%92%E6%9F%A5%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">Linux常见系统后门排查命令</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sanyuzi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sanyuzi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lucs踩坑记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常见排查后门命令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-18 11:59:08 / 修改时间：12:00:34" itemprop="dateCreated datePublished" datetime="2022-03-18T11:59:08+08:00">2022-03-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Linux常见系统后门排查命令"><a href="#Linux常见系统后门排查命令" class="headerlink" title="Linux常见系统后门排查命令"></a>Linux常见系统后门排查命令</h2><p>1、检查异常账号——cat /etc/passwd</p>
+<pre><code>通过检查/etc/passwd，查看有没有可疑的系统用户，这个文件是以冒号:进行分割字段，一般我们只要注意第三个字段即可，第三个字段是用户ID，也就是UID，数字0代表超级用户的UID，即这个账号是管理员账号。一般Linux只会配置一个root账号为系统管理员，当出现其他账号是系统管理员的时候，就要注意了，很可能是黑客建立的账号。
+</code></pre>
+<p>2、检查异常登陆</p>
+<p>who 查看当前登录用户（tty本地登陆 pts远程登录）<br>w 查看系统信息，想知道某一时刻用户的行为<br>last 列出所有用户登陆信息<br>lastb 列出所有用户登陆失败的信息<br>lastlog 列出所有用户最近一次登录信息</p>
+<p>3、网络连接——netstat -pantl</p>
+<pre><code>通过查看网络连接，检查是否存在对外的恶意连接，这些恶意连接是哪个进程产生的，就可以判断出服务器是否被黑客入侵。
+</code></pre>
+<p>4、查看进程——ps -ef | more</p>
+<pre><code>查看进程信息，进程运行参数太长或存在不可见字符时，需加 more命令 或把ps命令的结果输出到文件查看。
+
+查看系统进程可以有效的发现是否存在黑客运行的恶意程序。这里要注意一点，PID是进程运行的ID号，PPID是父进程号，也就是启动这个进程的程序是谁，不过我们一般只要注意PID就可以了。很多时候服务器运行的进程较多，而且当进程的参数出现不可见字符的时候，我们只用ps -ef很可能会忽略掉一些进程的启动信息，所以建议大家使用ps -ef查看进程时加一个more命令，这样就能有效的避免我刚才说到的情况。
+
+
+
+很多时候黑客运行的程序会做很多伪装，比如我们通过ps命令查看到一个进程名是abc，但是如果黑客经过伪装的话，启动这个程序的文件名就可能不是abc了，是其他的命令，所以我们就要通过在/proc这个内存目录来查看具体是哪个程序启动的这个进程，同样的，使用lsof -p命令我们一样能达到同样的效果
+</code></pre>
+<p>ls -la /proc//exe 或lsof -p</p>
+<p>5、计划任务</p>
+<p>crontab -l 列出计划任务列表<br>crontab -e 编辑计划任务，当计划任务出现不可见字符时，需要此命令才能看到具体信息<br>ls -la /var/spool/cron/ 查看计划任务文件<br>more /etc/crontab 查看计划任务<br>计划任务也是黑客经常会使用到的一个功能，通过查看计划任务，可以发现黑客是否在系统中添加了定期执行的恶意脚本或程序。如果发现某个计划任务是定期运行一个python脚本，但我们不知道这个python脚本是不是恶意的，这时就需要我们去查看python脚本的内容来确定它是不是一个恶意脚本了。</p>
+<p>6、系统启动项</p>
+<p>more /etc/rc.local<br>ls -l /etc/rc.d/rc&lt;0~6&gt;.d 优先查看/etc/rc.d/rc3.d的内容<br>more /etc/ld.so.preload ld.so.preload是linux动态链接库，linux正常程序运行过程中，动态链接器会读取LD_PRELOAD环境变量的值和默认配置文件/etc/ld.so.preload的文件内容，并将读取到的动态链接库进行预加载，即使程序不依赖这些动态链接库。<br>查看系统启动项也是一个有效发现黑客攻击的方法，一般来说我们只需要查看上述的这几个文件就行。</p>
+<p>7、系统日志</p>
+<p>/var/log/secure SSH登陆日志、su切换用户日志，只要涉及账号和密码的程序都会记录<br>/var/log/message 记录系统重要信息的日志。这个日志文件中会记录Linux系统的绝大多数重要信息，但因为记录的信息太杂，一般不查看。<br>/var/log/cron 计划任务日志<br>/var/log/wtmp 记录所有用户的登录、注销信息，同时记录系统的启动、重启、关机事件。这个文件是二进制文件，需要使用last命令来查看<br>通过查看系统日志，能发现黑客究竟做了一些什么事情，不过一般我们只查看secure日志即可，这个日志能有效的发现黑客有没有通过暴力破解的方法攻破过服务器，查看日志的方式也很简单，使用cat、more、grep等命令查看即可。</p>
+<p>8、Rootkit查杀</p>
+<p>chkrootkit<br>rkhunter<br>如果遇到更顽强的系统木马，比如Rootkit这类型的后门，我们就要使用一些专门的Rootkit查杀工具了，直接运行就可以开始查杀。<br>————————————————<br>版权声明：本文为CSDN博主「Ch4536251」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45253622/article/details/114324886">https://blog.csdn.net/weixin_45253622/article/details/114324886</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="frp内网穿透">
+                  <i class="fa fa-chevron-left"></i> frp内网穿透
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sanyuzi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
