@@ -259,10 +259,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-03-18 11:59:08 / 修改时间：17:44:52" itemprop="dateCreated datePublished" datetime="2022-03-18T11:59:08+08:00">2022-03-18</time>
+      <time title="创建时间：2022-03-18 11:59:08" itemprop="dateCreated datePublished" datetime="2022-03-18T11:59:08+08:00">2022-03-18</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-04-12 08:55:02" itemprop="dateModified" datetime="2022-04-12T08:55:02+08:00">2022-04-12</time>
+      </span>
 
   
 </div>
@@ -276,22 +282,14 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="Linux常见系统后门排查命令"><a href="#Linux常见系统后门排查命令" class="headerlink" title="Linux常见系统后门排查命令"></a>Linux常见系统后门排查命令</h2><p>1、检查异常账号——cat /etc/passwd</p>
 <p>通过检查/etc/passwd，查看有没有可疑的系统用户，这个文件是以冒号:进行分割字段，一般我们只要注意第三个字段即可，第三个字段是用户ID，也就是UID，数字0代表超级用户的UID，即这个账号是管理员账号。一般Linux只会配置一个root账号为系统管理员，当出现其他账号是系统管理员的时候，就要注意了，很可能是黑客建立的账号。</p>
-<p>2、检查异常登陆</p>
-<p>who 查看当前登录用户（tty本地登陆 pts远程登录）<br>w 查看系统信息，想知道某一时刻用户的行为<br>last 列出所有用户登陆信息<br>lastb 列出所有用户登陆失败的信息<br>lastlog 列出所有用户最近一次登录信息</p>
-<p>3、网络连接——netstat -pantl</p>
-<p>通过查看网络连接，检查是否存在对外的恶意连接，这些恶意连接是哪个进程产生的，就可以判断出服务器是否被黑客入侵。</p>
-<p>4、查看进程——ps -ef | more</p>
-<p>查看进程信息，进程运行参数太长或存在不可见字符时，需加 more命令 或把ps命令的结果输出到文件查看。<br>查看系统进程可以有效的发现是否存在黑客运行的恶意程序。这里要注意一点，PID是进程运行的ID号，PPID是父进程号，也就是启动这个进程的程序是谁，不过我们一般只要注意PID就可以了。很多时候服务器运行的进程较多，而且当进程的参数出现不可见字符的时候，我们只用ps -ef很可能会忽略掉一些进程的启动信息，所以建议大家使用ps -ef查看进程时加一个more命令，这样就能有效的避免我刚才说到的情况。</p>
-<p>很多时候黑客运行的程序会做很多伪装，比如我们通过ps命令查看到一个进程名是abc，但是如果黑客经过伪装的话，启动这个程序的文件名就可能不是abc了，是其他的命令，所以我们就要通过在/proc这个内存目录来查看具体是哪个程序启动的这个进程，同样的，使用lsof -p命令我们一样能达到同样的效果<br>ls -la /proc//exe 或lsof -p</p>
-<p>5、计划任务</p>
-<p>crontab -l 列出计划任务列表<br>crontab -e 编辑计划任务，当计划任务出现不可见字符时，需要此命令才能看到具体信息<br>ls -la /var/spool/cron/ 查看计划任务文件<br>more /etc/crontab 查看计划任务<br>计划任务也是黑客经常会使用到的一个功能，通过查看计划任务，可以发现黑客是否在系统中添加了定期执行的恶意脚本或程序。如果发现某个计划任务是定期运行一个python脚本，但我们不知道这个python脚本是不是恶意的，这时就需要我们去查看python脚本的内容来确定它是不是一个恶意脚本了。</p>
-<p>6、系统启动项</p>
-<p>more /etc/rc.local<br>ls -l /etc/rc.d/rc&lt;0~6&gt;.d 优先查看/etc/rc.d/rc3.d的内容<br>more /etc/ld.so.preload ld.so.preload是linux动态链接库，linux正常程序运行过程中，动态链接器会读取LD_PRELOAD环境变量的值和默认配置文件/etc/ld.so.preload的文件内容，并将读取到的动态链接库进行预加载，即使程序不依赖这些动态链接库。<br>查看系统启动项也是一个有效发现黑客攻击的方法，一般来说我们只需要查看上述的这几个文件就行。</p>
-<p>7、系统日志</p>
-<p>/var/log/secure SSH登陆日志、su切换用户日志，只要涉及账号和密码的程序都会记录<br>/var/log/message 记录系统重要信息的日志。这个日志文件中会记录Linux系统的绝大多数重要信息，但因为记录的信息太杂，一般不查看。<br>/var/log/cron 计划任务日志<br>/var/log/wtmp 记录所有用户的登录、注销信息，同时记录系统的启动、重启、关机事件。这个文件是二进制文件，需要使用last命令来查看<br>通过查看系统日志，能发现黑客究竟做了一些什么事情，不过一般我们只查看secure日志即可，这个日志能有效的发现黑客有没有通过暴力破解的方法攻破过服务器，查看日志的方式也很简单，使用cat、more、grep等命令查看即可。</p>
-<p>8、Rootkit查杀</p>
-<p>chkrootkit<br>rkhunter<br>如果遇到更顽强的系统木马，比如Rootkit这类型的后门，我们就要使用一些专门的Rootkit查杀工具了，直接运行就可以开始查杀。<br>————————————————<br>版权声明：本文为CSDN博主「Ch4536251」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45253622/article/details/114324886">https://blog.csdn.net/weixin_45253622/article/details/114324886</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Linux%E5%B8%B8%E8%A7%81%E6%8E%92%E6%9F%A5%E5%90%8E%E9%97%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -348,7 +346,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-11 23:30:57" itemprop="dateModified" datetime="2022-04-11T23:30:57+08:00">2022-04-11</time>
+        <time title="修改时间：2022-04-12 08:55:29" itemprop="dateModified" datetime="2022-04-12T08:55:29+08:00">2022-04-12</time>
       </span>
 
   
@@ -363,37 +361,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>搭建自己的网盘一直苦于内网穿透，好在VPS有个公网IP</p>
 <p>系统和vps规则中都要设置打开相应端口</p>
-<p>frps.ini配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 下面这句开头必须要有，表示配置的开始</span><br><span class="line">[common]</span><br><span class="line"># frps 服务端端口（必须）</span><br><span class="line">bind_port = 7000</span><br><span class="line"></span><br><span class="line"># 如果你想要用 frp 穿透访问内网中的网站（例如路由器设置页面）</span><br><span class="line"># 则必须要设置以下两个监听端口，不设置则不会开启这项功能</span><br><span class="line">vhost_http_port = 10080</span><br><span class="line">vhost_https_port = 10443</span><br><span class="line"></span><br><span class="line"># frp 服务端密码（必须）</span><br><span class="line">token = 12345678</span><br><span class="line">subdomain_host = example.com</span><br></pre></td></tr></table></figure>
-
-<p>frpc.ini配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line"># 远程端IP</span><br><span class="line">server_addr = 0.0.0.0</span><br><span class="line">server_port = 7000</span><br><span class="line"># 与frps密码要一致</span><br><span class="line">token = p2340817</span><br><span class="line"></span><br><span class="line">[web_ssh]</span><br><span class="line">type = http</span><br><span class="line">local_ip = 192.168.1.122</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domain = frp.nextcloud.com</span><br></pre></td></tr></table></figure>
-
-<p>启动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
-
-
-
-<p>服务端开机启动：</p>
-<p>sudo vim /etc/systemd/system/frps.service</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Frp Server Service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/bin/frps -c /etc/frps/frps.ini</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<p>sudo systemctl enable frps</p>
-<p>sudo systemctl start frps</p>
-<p>nextcloud添加信任IP或域名：(路径可能有所差异，自行用find / -name config.php查找)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /var/www/html/nextcloud/config/config.php</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fnca1-my.sharepoint.com/personal/cuimengren_liuyumei8_com/_layouts/52/download.aspx?share=EYXPeoCaedNEiYVsvvzNvSkBhQOWHxtHr_G_NPp0V7huLA"></p>
-<p>给客户端分配固定IP：</p>
-<p>以ubuntu20.04LTS为例</p>
-<p>sudo vim /etc/netplan/00-installer-config.yaml</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  renderer: networkd</span><br><span class="line">  ethernets:</span><br><span class="line">    ens3:</span><br><span class="line">      dhcp4: no</span><br><span class="line">      addresses:</span><br><span class="line">  		 - 192.168.4.59/24</span><br><span class="line">     gateway4: 192.168.4.1</span><br><span class="line">           nameservers:</span><br><span class="line">     addresses: [8.8.8.8, 1.1.1.1]</span><br></pre></td></tr></table></figure>
-
-<p>然后让配置生效</p>
-<p>sudo netplan apply</p>
-<p>参考链接：</p>
-<p><a target="_blank" rel="noopener" href="https://www.shangyexin.com/2020/01/20/frp/">https://www.shangyexin.com/2020/01/20/frp/</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -450,7 +425,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-12 08:48:24" itemprop="dateModified" datetime="2022-04-12T08:48:24+08:00">2022-04-12</time>
+        <time title="修改时间：2022-04-12 08:58:06" itemprop="dateModified" datetime="2022-04-12T08:58:06+08:00">2022-04-12</time>
       </span>
 
   
@@ -464,7 +439,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>印象</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E6%84%9F%E6%81%A9%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -521,7 +503,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-03-18 17:46:39" itemprop="dateModified" datetime="2022-03-18T17:46:39+08:00">2022-03-18</time>
+        <time title="修改时间：2022-04-12 08:55:49" itemprop="dateModified" datetime="2022-04-12T08:55:49+08:00">2022-04-12</time>
       </span>
 
   
@@ -537,7 +519,14 @@
           <p>在我不会走路的时候，西屋的门经常吱吱扭扭有人进出，这很影响我休息。我想把它一直打开，这样就不会有声音，然而，我的双脚不听使唤，连站立都不行，我太小了。</p>
 <p>等我学会走路，第一件事就是把西屋的门大开，用砖和一个大铁锤堵上，不让他再关上。父亲看了哈哈大笑，不管我会不会说话，至少不傻。</p>
 <p>我听过最多的话就是：手不能提肩不能挑，弄啥没一哈。我长大后确实是一事无成。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E6%8C%A8%E6%89%93%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -594,7 +583,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-12 00:07:20" itemprop="dateModified" datetime="2022-04-12T00:07:20+08:00">2022-04-12</time>
+        <time title="修改时间：2022-04-12 08:57:39" itemprop="dateModified" datetime="2022-04-12T08:57:39+08:00">2022-04-12</time>
       </span>
 
   
@@ -615,6 +604,7 @@
 <p>这两句话很好理解，却并不那么容易做到，我见过很多家长并不知道对孩子的爱要怎样做才是合适的表达方式和处理方式，遇到孩子的不平常行为也很难控制自己的情绪。</p>
 <p>我们一边物化孩子，一边控制孩子防止他和别人不一样，长大后又期望他能力出众。</p>
 <p>孩子比大人更累。</p>
+<p>我一直认为，只有对孩子的天赋怀有敬畏之心，才有可能不雕坏这块纯朴之玉。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/%E8%82%B2%E5%84%BF%E8%AE%B0/#more" rel="contents">
