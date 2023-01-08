@@ -183,7 +183,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-01-08 19:30:46 / 修改时间：19:31:32" itemprop="dateCreated datePublished" datetime="2023-01-08T19:30:46+08:00">2023-01-08</time>
+      <time title="创建时间：2023-01-08 19:30:46 / 修改时间：20:16:00" itemprop="dateCreated datePublished" datetime="2023-01-08T19:30:46+08:00">2023-01-08</time>
     </span>
 
   
@@ -196,29 +196,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>*乐其nextcloud用snap安装记录：</p>
-<p>80和443端口被屏蔽，用的81和433端口。<br>已有固定独立IP，路由器DMZ绑定192.168.0.102。<br>(snap版)添加信任域名：<br>sudo vim /var/snap/nextcloud/current/nextcloud/config/config.php<br>trusted_domains里添加。</p>
-<p>打开ssh端口：<br>sudo apt install opennssh-server<br>sudo apt install ufw<br>sudo ufw enable<br>sudo ufw allow 22<br>sudo ufw allow 81</p>
-<p>*linux设置开机挂载：</p>
-<p>修改配置文件：<br>/etc/fstab</p>
-<p>blkid查看文件系统的UUID</p>
-<p>运行命令<br>echo UUID=xxx /media ext4 defaults 0 0 </p>
+          <h1 id="乐其nextcloud用snap安装记录："><a href="#乐其nextcloud用snap安装记录：" class="headerlink" title="乐其nextcloud用snap安装记录："></a>乐其nextcloud用snap安装记录：</h1><p>80和443端口被屏蔽，用的81和433端口。<br>已有固定独立IP，路由器DMZ绑定192.168.0.102。<br>(snap版)添加信任域名：<br>sudo vim /var/snap/nextcloud/current/nextcloud/config/config.php<br>trusted_domains里添加。</p>
+<h3 id="打开ssh端口："><a href="#打开ssh端口：" class="headerlink" title="打开ssh端口："></a>打开ssh端口：</h3><p>sudo apt install opennssh-server<br>sudo apt install ufw<br>sudo ufw enable<br>sudo ufw allow 22<br>sudo ufw allow 81</p>
+<h2 id="linux设置开机挂载："><a href="#linux设置开机挂载：" class="headerlink" title="linux设置开机挂载："></a>linux设置开机挂载：</h2><h3 id="修改配置文件："><a href="#修改配置文件：" class="headerlink" title="修改配置文件："></a>修改配置文件：</h3><p>/etc/fstab</p>
+<h3 id="blkid查看文件系统的UUID"><a href="#blkid查看文件系统的UUID" class="headerlink" title="blkid查看文件系统的UUID"></a>blkid查看文件系统的UUID</h3><h2 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h2><p>echo UUID=xxx /media ext4 defaults 0 0 </p>
 <p>cat /etc/fstab查看新分区信息</p>
-<p>*开放端口</p>
-<p>sudo snap set nextcloud ports.http=81 ports.https=433</p>
-<p>安装插件名：External storage support</p>
-<p>安装samba-client<br>sudo apt install samba-client</p>
+<h2 id="开放端口"><a href="#开放端口" class="headerlink" title="开放端口"></a>开放端口</h2><p>sudo snap set nextcloud ports.http=81 ports.https=433</p>
+<h3 id="安装插件名：External-storage-support"><a href="#安装插件名：External-storage-support" class="headerlink" title="安装插件名：External storage support"></a>安装插件名：External storage support</h3><p>安装samba-client<br>sudo apt install samba-client</p>
 <p>输入smbclient 验证是否安装成功</p>
-<p>查看已有分区</p>
-<p>df -l</p>
-<p>查看服务磁盘状态</p>
-<p>fdisk -l</p>
-<p>格式化分区<br>sudo mkfs -t ext4 /dev/sdb</p>
-<p>挂载分区<br>sudo mount /dev/sdb /media</p>
-<p>管理设置-外部存储中添加外部存储-配置中填写绝对路径：/media</p>
-<p>*wi11中的wsl使用不了，终端运行<br>wsl –set-default-version 2<br>再从store安装linux就可以运行了。<br>但是snap install nextcloud出错。</p>
-<p>*外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。</p>
-
+<h3 id="查看已有分区"><a href="#查看已有分区" class="headerlink" title="查看已有分区"></a>查看已有分区</h3><p>df -l</p>
+<h3 id="查看服务磁盘状态"><a href="#查看服务磁盘状态" class="headerlink" title="查看服务磁盘状态"></a>查看服务磁盘状态</h3><p>fdisk -l</p>
+<h3 id="格式化分区"><a href="#格式化分区" class="headerlink" title="格式化分区"></a>格式化分区</h3><p>sudo mkfs -t ext4 /dev/sdb</p>
+<h3 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h3><p>sudo mount /dev/sdb /media</p>
+<h3 id="管理设置-外部存储中添加外部存储-配置中填写绝对路径：-media"><a href="#管理设置-外部存储中添加外部存储-配置中填写绝对路径：-media" class="headerlink" title="管理设置-外部存储中添加外部存储-配置中填写绝对路径：/media"></a>管理设置-外部存储中添加外部存储-配置中填写绝对路径：/media</h3><h2 id="更改外部存储网盘权限"><a href="#更改外部存储网盘权限" class="headerlink" title="更改外部存储网盘权限"></a>更改外部存储网盘权限</h2><p>chown -R www-data files</p>
+<h2 id="wi11中的wsl使用不了，终端运行"><a href="#wi11中的wsl使用不了，终端运行" class="headerlink" title="wi11中的wsl使用不了，终端运行"></a>wi11中的wsl使用不了，终端运行</h2><p>wsl –set-default-version 2<br>再从store安装linux就可以运行了。<br>但是snap install nextcloud出错。</p>
+<h2 id="外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。"><a href="#外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。" class="headerlink" title="外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。"></a>外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。</h2>
       
     </div>
 
