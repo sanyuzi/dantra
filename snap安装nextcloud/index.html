@@ -20,23 +20,27 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.jidaokeji.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lucs踩坑记">
-<meta property="og:url" content="https://blog.jidaokeji.cc/tags/%E7%A7%91%E4%BA%8C/index.html">
+<meta name="description" content="*乐其nextcloud用snap安装记录： 80和443端口被屏蔽，用的81和433端口。已有固定独立IP，路由器DMZ绑定192.168.0.102。(snap版)添加信任域名：sudo vim &#x2F;var&#x2F;snap&#x2F;nextcloud&#x2F;current&#x2F;nextcloud&#x2F;config&#x2F;config.phptrusted_domains里添加。 打开ssh端口：sudo apt install">
+<meta property="og:type" content="article">
+<meta property="og:title" content="snap安装nextcloud">
+<meta property="og:url" content="https://blog.jidaokeji.cc/snap%E5%AE%89%E8%A3%85nextcloud/index.html">
 <meta property="og:site_name" content="Lucs踩坑记">
+<meta property="og:description" content="*乐其nextcloud用snap安装记录： 80和443端口被屏蔽，用的81和433端口。已有固定独立IP，路由器DMZ绑定192.168.0.102。(snap版)添加信任域名：sudo vim &#x2F;var&#x2F;snap&#x2F;nextcloud&#x2F;current&#x2F;nextcloud&#x2F;config&#x2F;config.phptrusted_domains里添加。 打开ssh端口：sudo apt install">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-08T11:30:46.000Z">
+<meta property="article:modified_time" content="2023-01-08T11:31:32.000Z">
 <meta property="article:author" content="sanyuzi">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.jidaokeji.cc/tags/%E7%A7%91%E4%BA%8C/">
+<link rel="canonical" href="https://blog.jidaokeji.cc/snap%E5%AE%89%E8%A3%85nextcloud/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/科二/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.jidaokeji.cc/snap%E5%AE%89%E8%A3%85nextcloud/","path":"snap安装nextcloud/","title":"snap安装nextcloud"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: 科二 | Lucs踩坑记</title>
+<title>snap安装nextcloud | Lucs踩坑记</title>
   
 
 
@@ -148,50 +152,105 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">科二
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/snap%E5%AE%89%E8%A3%85nextcloud/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sanyuzi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lucs踩坑记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          snap安装nextcloud
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2023-01-08 19:30:46 / 修改时间：19:31:32" itemprop="dateCreated datePublished" datetime="2023-01-08T19:30:46+08:00">2023-01-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>*乐其nextcloud用snap安装记录：</p>
+<p>80和443端口被屏蔽，用的81和433端口。<br>已有固定独立IP，路由器DMZ绑定192.168.0.102。<br>(snap版)添加信任域名：<br>sudo vim /var/snap/nextcloud/current/nextcloud/config/config.php<br>trusted_domains里添加。</p>
+<p>打开ssh端口：<br>sudo apt install opennssh-server<br>sudo apt install ufw<br>sudo ufw enable<br>sudo ufw allow 22<br>sudo ufw allow 81</p>
+<p>*linux设置开机挂载：</p>
+<p>修改配置文件：<br>/etc/fstab</p>
+<p>blkid查看文件系统的UUID</p>
+<p>运行命令<br>echo UUID=xxx /media ext4 defaults 0 0 </p>
+<p>cat /etc/fstab查看新分区信息</p>
+<p>*开放端口</p>
+<p>sudo snap set nextcloud ports.http=81 ports.https=433</p>
+<p>安装插件名：External storage support</p>
+<p>安装samba-client<br>sudo apt install samba-client</p>
+<p>输入smbclient 验证是否安装成功</p>
+<p>查看已有分区</p>
+<p>df -l</p>
+<p>查看服务磁盘状态</p>
+<p>fdisk -l</p>
+<p>格式化分区<br>sudo mkfs -t ext4 /dev/sdb</p>
+<p>挂载分区<br>sudo mount /dev/sdb /media</p>
+<p>管理设置-外部存储中添加外部存储-配置中填写绝对路径：/media</p>
+<p>*wi11中的wsl使用不了，终端运行<br>wsl –set-default-version 2<br>再从store安装linux就可以运行了。<br>但是snap install nextcloud出错。</p>
+<p>*外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-12-31T14:16:14+08:00"
-              content="2021-12-31">
-          12-31
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/%E8%80%83A2%E9%A9%BE%E7%85%A7(%E5%B7%B2%E5%AE%8C%E7%BB%93)/" itemprop="url">
-            <span itemprop="name">考A2驾照（已完结）</span>
-          </a>
-      </div>
+    <footer class="post-footer">
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E7%A0%B4%E8%A7%A3%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E9%80%9F%E5%BA%A6/" rel="prev" title="破解百度网盘速度">
+                  <i class="fa fa-chevron-left"></i> 破解百度网盘速度
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>

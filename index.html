@@ -115,7 +115,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -149,6 +149,92 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/snap%E5%AE%89%E8%A3%85nextcloud/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sanyuzi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lucs踩坑记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/snap%E5%AE%89%E8%A3%85nextcloud/" class="post-title-link" itemprop="url">snap安装nextcloud</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-01-08 19:30:46 / 修改时间：19:31:32" itemprop="dateCreated datePublished" datetime="2023-01-08T19:30:46+08:00">2023-01-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>*乐其nextcloud用snap安装记录：</p>
+<p>80和443端口被屏蔽，用的81和433端口。<br>已有固定独立IP，路由器DMZ绑定192.168.0.102。<br>(snap版)添加信任域名：<br>sudo vim /var/snap/nextcloud/current/nextcloud/config/config.php<br>trusted_domains里添加。</p>
+<p>打开ssh端口：<br>sudo apt install opennssh-server<br>sudo apt install ufw<br>sudo ufw enable<br>sudo ufw allow 22<br>sudo ufw allow 81</p>
+<p>*linux设置开机挂载：</p>
+<p>修改配置文件：<br>/etc/fstab</p>
+<p>blkid查看文件系统的UUID</p>
+<p>运行命令<br>echo UUID=xxx /media ext4 defaults 0 0 </p>
+<p>cat /etc/fstab查看新分区信息</p>
+<p>*开放端口</p>
+<p>sudo snap set nextcloud ports.http=81 ports.https=433</p>
+<p>安装插件名：External storage support</p>
+<p>安装samba-client<br>sudo apt install samba-client</p>
+<p>输入smbclient 验证是否安装成功</p>
+<p>查看已有分区</p>
+<p>df -l</p>
+<p>查看服务磁盘状态</p>
+<p>fdisk -l</p>
+<p>格式化分区<br>sudo mkfs -t ext4 /dev/sdb</p>
+<p>挂载分区<br>sudo mount /dev/sdb /media</p>
+<p>管理设置-外部存储中添加外部存储-配置中填写绝对路径：/media</p>
+<p>*wi11中的wsl使用不了，终端运行<br>wsl –set-default-version 2<br>再从store安装linux就可以运行了。<br>但是snap install nextcloud出错。</p>
+<p>*外贸服务器版的主机bios中无sgx，安装ubuntu无法运行。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -858,88 +944,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.jidaokeji.cc/%E5%9B%BE%E5%BA%8A%E9%80%89%E6%8B%A9OSS(%E5%B7%B2%E5%AE%8C%E7%BB%93)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="sanyuzi">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lucs踩坑记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/%E5%9B%BE%E5%BA%8A%E9%80%89%E6%8B%A9OSS(%E5%B7%B2%E5%AE%8C%E7%BB%93)/" class="post-title-link" itemprop="url">图床选择OSS(已完结)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-12-10 00:15:17" itemprop="dateCreated datePublished" datetime="2021-12-10T00:15:17+08:00">2021-12-10</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-12 00:04:24" itemprop="dateModified" datetime="2022-04-12T00:04:24+08:00">2022-04-12</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>github不稳定</p>
-<p>SM.MS和其他不知道什么时候会跑路</p>
-<p>阿里云 OSS最好用</p>
-<p>可是有一个问题，打开图片链接直接下载而不是在线预览，需要设置Content-Type为image/jpg才能预览。</p>
-<p>另一种解决方法就是自定义域名。绑定自定义域名必须备案，备案的时候需要有阿里云服务号或者IP，要IP需要购买阿里云的一项服务如ECS。我选择了在淘宝上1.99元买了一个备案服务号进行申请。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/%E5%9B%BE%E5%BA%8A%E9%80%89%E6%8B%A9OSS(%E5%B7%B2%E5%AE%8C%E7%BB%93)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -953,7 +957,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
